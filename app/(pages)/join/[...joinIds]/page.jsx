@@ -146,3 +146,11 @@ export default function JoinPage({ params }) {
     </div>
   );
 }
+
+export async function generateStaticParams() {
+  return [
+    { joinIds: ["design"] },
+    { joinIds: ["web-development"] },
+    { joinIds: ["design", "app-development"] },
+  ];
+}
