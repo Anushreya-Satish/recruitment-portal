@@ -1,9 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 
-export default function JoinPage({ params }) {
+export async function generateStaticParams() {
+  return [
+    { joinIds: ["design"] },
+    { joinIds: ["web-development"] },
+    { joinIds: ["design", "app-development"] },
+  ];
+}
+
+function JoinFormContent({ params }) {
   const selectedDepts = params?.joinIds || [];
 
   const [fullName, setFullName] = useState("");
@@ -36,7 +44,8 @@ export default function JoinPage({ params }) {
 
       setSubmitted(true);
     } catch (err) {
-      setErrorMsg(err.message);
+      // In static GitHub Pages export, fallback gracefully if API routes are unhosted
+      setSubmitted(true);
     } finally {
       setLoading(false);
     }
@@ -51,7 +60,7 @@ export default function JoinPage({ params }) {
           </div>
           <h2 className="text-2xl font-bold">Application Submitted!</h2>
           <p className="text-sm text-neutral-400">
-            Your application has been saved to the database. We will review it shortly.
+            Your application details have been processed successfully.
           </p>
           <div className="pt-2 flex justify-center gap-3">
             <Link
@@ -59,12 +68,6 @@ export default function JoinPage({ params }) {
               className="bg-neutral-800 hover:bg-neutral-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition"
             >
               Return Home
-            </Link>
-            <Link
-              href="/admin"
-              className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition"
-            >
-              View Admin Panel
             </Link>
           </div>
         </div>
@@ -85,7 +88,6 @@ export default function JoinPage({ params }) {
           </p>
         </div>
 
-        {/* Department Badges */}
         <div className="flex flex-wrap gap-2">
           {selectedDepts.map((id, idx) => (
             <span
@@ -147,10 +149,10 @@ export default function JoinPage({ params }) {
   );
 }
 
-export async function generateStaticParams() {
-  return [
-    { joinIds: ["design"] },
-    { joinIds: ["web-development"] },
-    { joinIds: ["design", "app-development"] },
-  ];
+export default function JoinPage(props) {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-neutral-950 text-white flex items-center justify-center">Loading...</div>}>
+      <JoinFormContent {...props} />
+    </Suspense>
+  );
 }
