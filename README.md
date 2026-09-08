@@ -21,8 +21,8 @@ A modern, high-contrast web application designed for campus recruitment workflow
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/Recruitment-Portal.git](https://github.com/YOUR_USERNAME/Recruitment-Portal.git)
-   cd Recruitment-Portal
+   git clone [https://github.com/Anushreya-Satish/recruitment-portal.git](https://github.com/Anushreya-Satish/recruitment-portal.git)
+   cd recruitment-portal
 
 2. **Install dependencies:**
     ```bash
